@@ -40,8 +40,8 @@ function Main(props) {
       </section>
       <section>
         <ul className="elements">
-          {cards.map(({_id, name, link, likes}) => (
-            <Card cardId={_id} name={name} link={link} likesCount={likes.length}/>
+          {cards.map((card) => (
+            <Card card={card} onCardClick={props.onCardClick}/>
           ))}
         </ul>
       </section>
