@@ -1,7 +1,7 @@
 function PopupWithForm(props) {
   console.log(props.children);
   return (
-    <section className={`popup popup_type_${props.name}`}>
+    <section className={`popup popup_type_${props.name} ${props.isOpen && 'popup_opened'}`}>
       <div className="popup__container popup__container_content_common">
         <button className="popup__close-button" type="button"></button>
         <h2 className={`popup__heading ${props.name === 'confirmation' && 'popup__heading_type_confirmation'}`}>{props.title}</h2>
