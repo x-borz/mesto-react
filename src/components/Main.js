@@ -5,14 +5,22 @@ function Main(props) {
   const [userName, setUserName] = React.useState("Name");
   const [userDescription, setUserDescription] = React.useState("Job");
   const [userAvatar, setUserAvatar] = React.useState("#");
+  const [cards, setCards] = React.useState([]);
+  let userId = "";
 
   React.useEffect(() => {
     api.getUserInfo()
-      .then(({name, about, avatar}) => {
+      .then(({_id, name, about, avatar}) => {
+        userId = _id;
         setUserName(name);
         setUserDescription(about);
         setUserAvatar(avatar);
       })
+      .catch(err => console.log(err));
+
+    api.getInitialCards()
+      .then(initCards => setCards(initCards))
+      .catch(err => console.log(err));
   }, []);
 
   return (
@@ -31,6 +39,15 @@ function Main(props) {
       </section>
       <section>
         <ul className="elements">
+          {cards.map(({_id, name, link, likes}) => (
+            <li className="element" key={_id}>
+              <img className="element__img" src={link} alt={name}/>
+              <h2 className="element__title">{name}</h2>
+              <button className="element__like-button" type="button"></button>
+              <span className="element__like-counter">{likes.length}</span>
+              <button className="element__drop-button" type="button"></button>
+            </li>
+          ))}
         </ul>
       </section>
     </main>

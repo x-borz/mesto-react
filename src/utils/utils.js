@@ -12,5 +12,3 @@ export const apiOptions = {
     authorization: 'e54fe21d-9764-47c4-b2ad-473d479b0a70'
   }
 };
-
-export const cardIdPrefix = 'card_';

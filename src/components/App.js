@@ -56,16 +56,6 @@ function App() {
       <PopupWithForm name="confirmation" title="Вы уверены?" buttonName="Да" onClose={closeAllPopups} />
 
       <ImagePopup />
-
-      <template className="card-template">
-        <li className="element" id="">
-          <img className="element__img" src="src/components/App#" alt="Заполнить"/>
-          <h2 className="element__title">Заполнить</h2>
-          <button className="element__like-button" type="button"></button>
-          <span className="element__like-counter">0</span>
-          <button className="element__drop-button" type="button"></button>
-        </li>
-      </template>
     </div>
   );
 }
