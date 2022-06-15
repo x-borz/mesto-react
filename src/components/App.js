@@ -41,10 +41,10 @@ function App() {
       <Footer />
 
       <PopupWithForm name="profile" title="Редактировать профиль" buttonName="Сохранить" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
-          <input id="profile-name" className="popup__input popup__input_el_profile-name" type="text" placeholder="Имя" required minLength="2" maxLength="40" name="name"/>
-          <span className="profile-name-error popup__error"></span>
-          <input id="profile-job" className="popup__input popup__input_el_profile-job" type="text" placeholder="О себе" required minLength="2" maxLength="200" name="job"/>
-          <span className="profile-job-error popup__error"></span>
+        <input id="profile-name" className="popup__input popup__input_el_profile-name" type="text" placeholder="Имя" required minLength="2" maxLength="40" name="name"/>
+        <span className="profile-name-error popup__error"></span>
+        <input id="profile-job" className="popup__input popup__input_el_profile-job" type="text" placeholder="О себе" required minLength="2" maxLength="200" name="job"/>
+        <span className="profile-job-error popup__error"></span>
       </PopupWithForm>
 
       <PopupWithForm name="new-place" title="Новое место" buttonName="Создать" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
