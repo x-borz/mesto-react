@@ -1,5 +1,6 @@
 import React from "react";
 import api from "../utils/api";
+import Card from "./Card";
 
 function Main(props) {
   const [userName, setUserName] = React.useState("Name");
@@ -40,13 +41,7 @@ function Main(props) {
       <section>
         <ul className="elements">
           {cards.map(({_id, name, link, likes}) => (
-            <li className="element" key={_id}>
-              <img className="element__img" src={link} alt={name}/>
-              <h2 className="element__title">{name}</h2>
-              <button className="element__like-button" type="button"></button>
-              <span className="element__like-counter">{likes.length}</span>
-              <button className="element__drop-button" type="button"></button>
-            </li>
+            <Card cardId={_id} name={name} link={link} likesCount={likes.length}/>
           ))}
         </ul>
       </section>
