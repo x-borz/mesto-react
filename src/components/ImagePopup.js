@@ -7,14 +7,6 @@ function ImagePopup(props) {
       onClose();
   }
 
-  React.useEffect(() => {
-    const handleEscClose = evt => {
-      if (evt.key === 'Escape') onClose();
-    }
-    document.addEventListener("keydown", handleEscClose);
-    return () => document.removeEventListener("keydown", handleEscClose);
-  }, [card]);
-
   return (
     <section className={`popup popup_type_image ${card? 'popup_opened' : ''}`} onMouseDown={handlePopupMouseDown}>
       <div className="popup__container popup__container_content_image">

@@ -21,6 +21,16 @@ function App() {
     setSelectedCard(null);
   }
 
+  const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard;
+
+  React.useEffect(() => {
+    const handleEscClose = evt => {
+      if (evt.key === 'Escape') closeAllPopups();
+    }
+    document.addEventListener("keydown", handleEscClose);
+    return () => document.removeEventListener("keydown", handleEscClose);
+  }, [isOpen]);
+
   return (
     <div className="page">
       <Header />
