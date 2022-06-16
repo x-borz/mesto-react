@@ -1,20 +1,31 @@
-import Popup from "./Popup";
+import React from "react";
 
-class ImagePopup extends Popup {
-  render() {
-    const {card} = this.props;
-    return (
-      <section className={`popup popup_type_image ${card? 'popup_opened' : ''}`} onMouseDown={this.handlePopupMouseDown}>
-        <div className="popup__container popup__container_content_image">
-          <button className="popup__close-button" type="button"></button>
-          <figure className="popup__figure">
-            <img className="popup__img" src={card? card.link : '#'} alt={card? card.name : ''}/>
-            <figcaption className="popup__caption">{card? card.name : ''}</figcaption>
-          </figure>
-        </div>
-      </section>
-    );
+function ImagePopup(props) {
+  const {card, onClose} = props;
+  const handlePopupMouseDown = evt => {
+    if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close-button'))
+      onClose();
   }
+
+  React.useEffect(() => {
+    const handleEscClose = evt => {
+      if (evt.key === 'Escape') onClose();
+    }
+    document.addEventListener("keydown", handleEscClose);
+    return () => document.removeEventListener("keydown", handleEscClose);
+  }, [card]);
+
+  return (
+    <section className={`popup popup_type_image ${card? 'popup_opened' : ''}`} onMouseDown={handlePopupMouseDown}>
+      <div className="popup__container popup__container_content_image">
+        <button className="popup__close-button" type="button"></button>
+        <figure className="popup__figure">
+          <img className="popup__img" src={card? card.link : '#'} alt={card? card.name : ''}/>
+          <figcaption className="popup__caption">{card? card.name : ''}</figcaption>
+        </figure>
+      </div>
+    </section>
+  );
 }
 
 export default ImagePopup;
