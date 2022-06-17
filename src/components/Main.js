@@ -31,9 +31,11 @@ function Main(props) {
           <button className="profile__avatar-update-button" type="button" onClick={onEditAvatar}></button>
         </div>
         <div className="profile__info">
-          <h1 className="profile__name">{userName}</h1>
+          <div className="profile__name-container">
+            <h1 className="profile__name">{userName}</h1>
+            <button className="profile__button profile__button_type_edit" type="button" onClick={onEditProfile}></button>
+          </div>
           <p className="profile__job">{userDescription}</p>
-          <button className="profile__button profile__button_type_edit" type="button" onClick={onEditProfile}></button>
         </div>
         <button className="profile__button profile__button_type_add" type="button" onClick={onAddPlace}></button>
       </section>
