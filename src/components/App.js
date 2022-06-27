@@ -17,6 +17,7 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
+  const [isBusy, setBusy] = React.useState(false);
   const handleEditAvatarClick = () => setIsEditAvatarPopupOpen(true);
   const handleEditProfileClick = () => setIsEditProfilePopupOpen(true);
   const handleAddPlaceClick = () => setIsAddPlacePopupOpen(true);
@@ -28,20 +29,24 @@ function App() {
     setSelectedCard(null);
   }
   const handleUpdateUser = body => {
+    setBusy(true);
     api.updateUserInfo(body)
       .then(user => {
         setCurrentUser(user);
         closeAllPopups();
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
+      .finally(() => setBusy(false));
   }
   const handleUpdateAvatar = link => {
+    setBusy(true);
     api.updateAvatar(link)
       .then(user => {
         setCurrentUser(user);
         closeAllPopups();
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
+      .finally(() => setBusy(false));
   }
   const handleCardLike = card => {
     const isCardLiked = card.likes.some(item => currentUser._id === item._id);
@@ -60,12 +65,14 @@ function App() {
       .catch(err => console.log(err));
   }
   const handleAddPlace = body => {
+    setBusy(true);
     api.addCard(body)
       .then(card => {
         setCards([card, ...cards]);
         closeAllPopups();
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
+      .finally(() => setBusy(false));
   }
 
   const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard;
@@ -105,9 +112,9 @@ function App() {
         />
         <Footer />
 
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
-        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace}/>
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} isBusy={isBusy} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} isBusy={isBusy} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
+        <AddPlacePopup isOpen={isAddPlacePopupOpen} isBusy={isBusy} onClose={closeAllPopups} onAddPlace={handleAddPlace}/>
 
         <PopupWithForm name="confirmation" title="Вы уверены?" buttonName="Да" onClose={closeAllPopups} />
 
