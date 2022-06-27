@@ -2,7 +2,7 @@ import PopupWithForm from "./PopupWithForm";
 import React from "react";
 
 function EditAvatarPopup(props) {
-  const {isOpen, isBusy, onClose, onUpdateAvatar} = props;
+  const {isOpen, isBusy, onClose, onUpdateAvatar, validator} = props;
   const input = React.createRef();
   const handleSubmit = evt => {
     evt.preventDefault();
@@ -12,6 +12,7 @@ function EditAvatarPopup(props) {
   React.useEffect(() => {
     if (isOpen) {
       input.current.value = "";
+      validator.resetValidation();
     }
   }, [isOpen]);
 

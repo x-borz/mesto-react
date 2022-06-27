@@ -3,7 +3,7 @@ import React from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function EditProfilePopup(props) {
-  const {isOpen, isBusy, onClose, onUpdateUser} = props;
+  const {isOpen, isBusy, onClose, onUpdateUser, validator} = props;
   const currentUser = React.useContext(CurrentUserContext);
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -17,9 +17,12 @@ function EditProfilePopup(props) {
   }
 
   React.useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
-  }, [currentUser]);
+    if (isOpen) {
+      setName(currentUser.name);
+      setDescription(currentUser.about);
+      validator.resetValidation();
+    }
+  }, [isOpen]);
 
   return (
     <PopupWithForm name="profile" title="Редактировать профиль" buttonName="Сохранить" isOpen={isOpen} isBusy={isBusy} onClose={onClose} onSubmit={handleSubmit}>

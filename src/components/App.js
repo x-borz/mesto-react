@@ -9,6 +9,8 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import DeleteConfirmPopup from "./DeleteConfirmPopup";
+import FormValidator from "../utils/FormValidator";
+import {validParams} from "../utils/utils";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -105,6 +107,19 @@ function App() {
       .catch(err => console.log(err));
   }, []);
 
+  const validators = {};
+  const enableValidation = () => {
+    const formList = Array.from(document.querySelectorAll('.popup__form'));
+    formList.forEach(formElement => {
+      const validator = new FormValidator(validParams, formElement);
+      const formName = formElement.getAttribute('name');
+      validators[formName] = validator;
+      validator.enableValidation();
+    });
+  }
+
+  enableValidation();
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -120,10 +135,33 @@ function App() {
         />
         <Footer />
 
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} isBusy={isBusy} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} isBusy={isBusy} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
-        <AddPlacePopup isOpen={isAddPlacePopupOpen} isBusy={isBusy} onClose={closeAllPopups} onAddPlace={handleAddPlace}/>
-        <DeleteConfirmPopup isOpen={!!cardForDelete} isBusy={isBusy} onClose={closeAllPopups} onDeletePlace={handleCardDelete} />
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          isBusy={isBusy}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+          validator={validators['profile']}
+        />
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          isBusy={isBusy}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+          validator={validators['new-avatar']}
+        />
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
+          isBusy={isBusy}
+          onClose={closeAllPopups}
+          onAddPlace={handleAddPlace}
+          validator={validators['new-place']}
+        />
+        <DeleteConfirmPopup
+          isOpen={!!cardForDelete}
+          isBusy={isBusy}
+          onClose={closeAllPopups}
+          onDeletePlace={handleCardDelete}
+        />
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </div>

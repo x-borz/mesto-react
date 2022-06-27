@@ -2,7 +2,7 @@ import PopupWithForm from "./PopupWithForm";
 import React from "react";
 
 function AddPlacePopup(props) {
-  const {isOpen, isBusy, onClose, onAddPlace} = props;
+  const {isOpen, isBusy, onClose, onAddPlace, validator} = props;
   const [name, setName] = React.useState("");
   const [link, setLink] = React.useState("");
   const handleChange = evt => {
@@ -19,6 +19,7 @@ function AddPlacePopup(props) {
     if (isOpen) {
       setName("");
       setLink("");
+      validator.resetValidation();
     }
   }, [isOpen])
 
