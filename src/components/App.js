@@ -1,7 +1,6 @@
 import Header from './Header';
 import Main from './Main';
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import React from "react";
 import api from "../utils/api";
@@ -9,24 +8,28 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import DeleteConfirmPopup from "./DeleteConfirmForm";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
+  const [cardForDelete, setCardForDelete] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [isBusy, setBusy] = React.useState(false);
   const handleEditAvatarClick = () => setIsEditAvatarPopupOpen(true);
   const handleEditProfileClick = () => setIsEditProfilePopupOpen(true);
   const handleAddPlaceClick = () => setIsAddPlacePopupOpen(true);
+  const handleCardDeleteClick = card => setCardForDelete(card);
   const handleCardClick = card => setSelectedCard(card);
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
+    setCardForDelete(null)
   }
   const handleUpdateUser = body => {
     setBusy(true);
@@ -59,10 +62,15 @@ function App() {
       })
       .catch(err => console.log(err));
   }
-  const handleCardDelete = card => {
-    api.dropCard(card._id)
-      .then(() => setCards(cards.filter(c => card._id !== c._id)))
-      .catch(err => console.log(err));
+  const handleCardDelete = () => {
+    setBusy(true);
+    api.dropCard(cardForDelete._id)
+      .then(() => {
+        setCards(cards.filter(c => cardForDelete._id !== c._id));
+        closeAllPopups();
+      })
+      .catch(err => console.log(err))
+      .finally(() => setBusy(false));
   }
   const handleAddPlace = body => {
     setBusy(true);
@@ -75,7 +83,7 @@ function App() {
       .finally(() => setBusy(false));
   }
 
-  const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard;
+  const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard || cardForDelete;
 
   React.useEffect(() => {
     const handleEscClose = evt => {
@@ -108,15 +116,14 @@ function App() {
           onEditAvatar={handleEditAvatarClick}
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
+          onCardDeleteClick={handleCardDeleteClick}
         />
         <Footer />
 
         <EditProfilePopup isOpen={isEditProfilePopupOpen} isBusy={isBusy} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} isBusy={isBusy} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
         <AddPlacePopup isOpen={isAddPlacePopupOpen} isBusy={isBusy} onClose={closeAllPopups} onAddPlace={handleAddPlace}/>
-
-        <PopupWithForm name="confirmation" title="Вы уверены?" buttonName="Да" onClose={closeAllPopups} />
+        <DeleteConfirmPopup isOpen={!!cardForDelete} isBusy={isBusy} onClose={closeAllPopups} onDeletePlace={handleCardDelete} />
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </div>
