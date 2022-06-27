@@ -1,5 +1,5 @@
 function PopupWithForm(props) {
-  const {name, title, isOpen, buttonName, onClose, children} = props;
+  const {name, title, isOpen, buttonName, onClose, onSubmit, children} = props;
   const handlePopupMouseDown = evt => {
     if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close-button'))
       onClose();
@@ -10,7 +10,7 @@ function PopupWithForm(props) {
       <div className="popup__container popup__container_content_common">
         <button className="popup__close-button" type="button"></button>
         <h2 className={`popup__heading ${name === 'confirmation'? 'popup__heading_type_confirmation' : ''}`}>{title}</h2>
-        <form className="popup__form popup__form_type_profile" name={name}>
+        <form className="popup__form popup__form_type_profile" name={name} onSubmit={onSubmit}>
           {children}
           <button className="popup__submit-button" type="submit">{buttonName}</button>
         </form>
