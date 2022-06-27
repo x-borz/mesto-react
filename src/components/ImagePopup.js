@@ -1,5 +1,3 @@
-import React from "react";
-
 function ImagePopup(props) {
   const {card, onClose} = props;
   const handlePopupMouseDown = evt => {

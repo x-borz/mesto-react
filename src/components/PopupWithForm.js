@@ -1,5 +1,3 @@
-import React from "react";
-
 function PopupWithForm(props) {
   const {name, title, isOpen, buttonName, onClose, children} = props;
   const handlePopupMouseDown = evt => {
