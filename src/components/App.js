@@ -16,7 +16,7 @@ function App() {
   const handleEditAvatarClick = () => setIsEditAvatarPopupOpen(true);
   const handleEditProfileClick = () => setIsEditProfilePopupOpen(true);
   const handleAddPlaceClick = () => setIsAddPlacePopupOpen(true);
-  const handleCardClick = (card) => setSelectedCard(card);
+  const handleCardClick = card => setSelectedCard(card);
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);

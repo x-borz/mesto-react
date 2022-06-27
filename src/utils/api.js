@@ -60,18 +60,22 @@ class Api {
     });
   }
 
-  addLike(id) {
+  _addLike(id) {
     return this._sendRequest({
       resource: '/cards/' + id + '/likes',
       method: 'PUT'
     });
   }
 
-  removeLike(id) {
+  _removeLike(id) {
     return this._sendRequest({
       resource: '/cards/' + id + '/likes',
       method: 'DELETE'
     });
+  }
+
+  setLikeStatus(id, isLiked) {
+    return isLiked? this._addLike(id) : this._removeLike(id);
   }
 
   updateAvatar(link) {
