@@ -13,10 +13,7 @@ function EditProfilePopup(props) {
   }
   const handleSubmit = evt => {
     evt.preventDefault();
-    onUpdateUser({
-      name,
-      about: description,
-    });
+    onUpdateUser({name, about: description});
   }
 
   React.useEffect(() => {
