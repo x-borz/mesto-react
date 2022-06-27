@@ -1,7 +1,7 @@
 import PopupWithForm from "./PopupWithForm";
 import React from "react";
 
-function DeleteConfirmForm(props) {
+function DeleteConfirmPopup(props) {
   const {isOpen, isBusy, onClose, onDeletePlace} = props;
   const handleSubmit = evt => {
     evt.preventDefault();
@@ -13,4 +13,4 @@ function DeleteConfirmForm(props) {
   );
 }
 
-export default DeleteConfirmForm;
+export default DeleteConfirmPopup;
