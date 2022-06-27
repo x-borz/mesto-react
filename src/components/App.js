@@ -7,6 +7,7 @@ import React from "react";
 import api from "../utils/api";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -26,6 +27,14 @@ function App() {
   }
   const handleUpdateUser = body => {
     api.updateUserInfo(body)
+      .then(user => {
+        setCurrentUser(user);
+        closeAllPopups();
+      })
+      .catch(err => console.log(err));
+  }
+  const handleUpdateAvatar = link => {
+    api.updateAvatar(link)
       .then(user => {
         setCurrentUser(user);
         closeAllPopups();
@@ -57,6 +66,7 @@ function App() {
         <Footer />
 
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
 
         <PopupWithForm name="new-place" title="Новое место" buttonName="Создать" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
           <input id="place-name" className="popup__input popup__input_el_place-name" type="text" placeholder="Название" required minLength="2" maxLength="30" name="name"/>
@@ -65,10 +75,6 @@ function App() {
           <span className="image-link-error popup__error"></span>
         </PopupWithForm>
 
-        <PopupWithForm name="new-avatar" title="Обновить аватар" buttonName="Сохранить" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
-          <input id="avatar-link" className="popup__input popup__input_el_image-link" type="url" placeholder="Ссылка на картинку" required name="link"/>
-          <span className="avatar-link-error popup__error"></span>
-        </PopupWithForm>
 
         <PopupWithForm name="confirmation" title="Вы уверены?" buttonName="Да" onClose={closeAllPopups} />
 
