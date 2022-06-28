@@ -97,8 +97,10 @@ function App() {
     const handleEscClose = evt => {
       if (evt.key === 'Escape') closeAllPopups();
     }
-    document.addEventListener("keydown", handleEscClose);
-    return () => document.removeEventListener("keydown", handleEscClose);
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscClose);
+      return () => document.removeEventListener("keydown", handleEscClose);
+    }
   }, [isOpen]);
 
   React.useEffect(() => {
