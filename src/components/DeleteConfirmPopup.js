@@ -1,15 +1,14 @@
 import PopupWithForm from "./PopupWithForm";
 import React from "react";
 
-function DeleteConfirmPopup(props) {
-  const {isOpen, isBusy, onClose, onDeletePlace} = props;
+function DeleteConfirmPopup({isOpen, isLoading, onClose, onDeletePlace}) {
   const handleSubmit = evt => {
     evt.preventDefault();
     onDeletePlace();
   };
 
   return (
-    <PopupWithForm name="confirmation" title="Вы уверены?" buttonName="Да" isOpen={isOpen} isBusy={isBusy} onClose={onClose} onSubmit={handleSubmit}/>
+    <PopupWithForm name="confirmation" title="Вы уверены?" buttonName="Да" isOpen={isOpen} isLoading={isLoading} onClose={onClose} onSubmit={handleSubmit}/>
   );
 }
 

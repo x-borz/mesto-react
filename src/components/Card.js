@@ -1,8 +1,7 @@
 import React from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
-function Card(props) {
-  const {card, onCardClick, onCardLike, onCardDeleteClick} = props;
+function Card({card, onCardClick, onCardLike, onCardDeleteClick}) {
   const currentUser = React.useContext(CurrentUserContext);
   const isDroppable = currentUser._id === card.owner._id;
   const isLiked = card.likes.some(like => currentUser._id === like._id);

@@ -20,12 +20,18 @@ function App() {
   const [cardForDelete, setCardForDelete] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
-  const [isBusy, setBusy] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+
   const handleEditAvatarClick = () => setIsEditAvatarPopupOpen(true);
+
   const handleEditProfileClick = () => setIsEditProfilePopupOpen(true);
+
   const handleAddPlaceClick = () => setIsAddPlacePopupOpen(true);
+
   const handleCardDeleteClick = card => setCardForDelete(card);
+
   const handleCardClick = card => setSelectedCard(card);
+
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
@@ -33,26 +39,29 @@ function App() {
     setSelectedCard(null);
     setCardForDelete(null)
   }
+
   const handleUpdateUser = body => {
-    setBusy(true);
+    setIsLoading(true);
     api.updateUserInfo(body)
       .then(user => {
         setCurrentUser(user);
         closeAllPopups();
       })
       .catch(err => console.log(err))
-      .finally(() => setBusy(false));
+      .finally(() => setIsLoading(false));
   }
+
   const handleUpdateAvatar = link => {
-    setBusy(true);
+    setIsLoading(true);
     api.updateAvatar(link)
       .then(user => {
         setCurrentUser(user);
         closeAllPopups();
       })
       .catch(err => console.log(err))
-      .finally(() => setBusy(false));
+      .finally(() => setIsLoading(false));
   }
+
   const handleCardLike = card => {
     const isCardLiked = card.likes.some(item => currentUser._id === item._id);
     api.setLikeStatus(card._id, !isCardLiked)
@@ -64,25 +73,27 @@ function App() {
       })
       .catch(err => console.log(err));
   }
+
   const handleCardDelete = () => {
-    setBusy(true);
+    setIsLoading(true);
     api.dropCard(cardForDelete._id)
       .then(() => {
         setCards(cards.filter(c => cardForDelete._id !== c._id));
         closeAllPopups();
       })
       .catch(err => console.log(err))
-      .finally(() => setBusy(false));
+      .finally(() => setIsLoading(false));
   }
+
   const handleAddPlace = body => {
-    setBusy(true);
+    setIsLoading(true);
     api.addCard(body)
       .then(card => {
         setCards([card, ...cards]);
         closeAllPopups();
       })
       .catch(err => console.log(err))
-      .finally(() => setBusy(false));
+      .finally(() => setIsLoading(false));
   }
 
   const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard || cardForDelete;
@@ -108,6 +119,7 @@ function App() {
   }, []);
 
   const validators = {};
+
   const enableValidation = () => {
     const formList = Array.from(document.querySelectorAll('.popup__form'));
     formList.forEach(formElement => {
@@ -137,28 +149,28 @@ function App() {
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
-          isBusy={isBusy}
+          isLoading={isLoading}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
           validator={validators['profile']}
         />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
-          isBusy={isBusy}
+          isLoading={isLoading}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
           validator={validators['new-avatar']}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
-          isBusy={isBusy}
+          isLoading={isLoading}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlace}
           validator={validators['new-place']}
         />
         <DeleteConfirmPopup
           isOpen={!!cardForDelete}
-          isBusy={isBusy}
+          isLoading={isLoading}
           onClose={closeAllPopups}
           onDeletePlace={handleCardDelete}
         />

@@ -1,5 +1,4 @@
-function ImagePopup(props) {
-  const {card, onClose} = props;
+function ImagePopup({card, onClose}) {
   const handlePopupMouseDown = evt => {
     if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close-button'))
       onClose();
