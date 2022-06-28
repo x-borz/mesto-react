@@ -1,7 +1,7 @@
 import PopupWithForm from "./PopupWithForm";
 import React from "react";
 
-function AddPlacePopup({isOpen, isLoading, onClose, onAddPlace, validator}) {
+function AddPlacePopup({isOpen, isLoading, onClose, onAddPlace}) {
   const [name, setName] = React.useState("");
   const [link, setLink] = React.useState("");
 
@@ -20,7 +20,6 @@ function AddPlacePopup({isOpen, isLoading, onClose, onAddPlace, validator}) {
     if (isOpen) {
       setName("");
       setLink("");
-      validator.resetValidation();
     }
   }, [isOpen])
 

@@ -2,7 +2,7 @@ import PopupWithForm from "./PopupWithForm";
 import React from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
-function EditProfilePopup({isOpen, isLoading, onClose, onUpdateUser, validator}) {
+function EditProfilePopup({isOpen, isLoading, onClose, onUpdateUser}) {
   const currentUser = React.useContext(CurrentUserContext);
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -21,7 +21,6 @@ function EditProfilePopup({isOpen, isLoading, onClose, onUpdateUser, validator})
     if (isOpen) {
       setName(currentUser.name);
       setDescription(currentUser.about);
-      validator.resetValidation();
     }
   }, [isOpen]);
 
