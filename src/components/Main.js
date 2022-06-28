@@ -9,7 +9,7 @@ function Main({cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCa
     <main className="content page__section">
       <section className="profile">
         <div className="profile__avatar-container">
-          <img className="profile__avatar" src={avatar} alt="Аватар"/>
+          {avatar && (<img className="profile__avatar" src={avatar} alt="Аватар"/>)}
           <button className="profile__avatar-update-button" type="button" onClick={onEditAvatar}></button>
         </div>
         <div className="profile__info">
